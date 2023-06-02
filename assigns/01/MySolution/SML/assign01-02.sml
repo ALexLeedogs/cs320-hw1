@@ -36,7 +36,18 @@ else xlist_sub(xs1, i0-1)
 else if i0 > xlist_size(xs) - 1
 then raise XlistSubscript
 else xlist_sub(xs1,i0-1)
-| xlist_append(x1,x2) => if i0<= 0 then xlist_sub(x1,0) else if i0 > xlist_size(x1)-1 then xlist_sub(x2,i0-xlist_size(x1)) else xlist_sub(x1,i0)
+| xlist_append(xs1,xs2)=>
+let
+val xs1size = xlist_size(xs1) 
+val xs2size = xlist_size(xs2)
+in
+if i0 <= 0 then xlist_sub(xs1,0)
+else if i0 > xs1size + xs2size - 1
+then raise XlistSubscript
+else if i0 < xs1size 
+then xlist_sub(xs1,i0)
+else xlist_sub(xs2, i0 - xs1size)
+end
 | xlist_reverse(xs1)=>
 xlist_sub(xs1,i0)
 
