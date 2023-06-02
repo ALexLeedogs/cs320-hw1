@@ -55,26 +55,66 @@ int5_sort_nr(xs) for every 5-tuple xs of the type int5.
 
 val
 int2_sort_nr =
-fn(xs: int2): int2 => raise NotImplemented320
-
+fn(xs: int2): int2 => 
+let
+    val (x1, x2) = xs
+in
+    if x1 <= x2 then (x1,x2) else (x2,x1)
+end
 (* ****** ****** *)
 
 val
 int3_sort_nr =
-fn(xs: int3): int3 => raise NotImplemented320
+fn(xs: int3): int3 => 
+let 
+    val (x1,x2,x3) = xs
+    val (a, b) = int2_sort_nr(x1, x2)
+    val (c, d) = int2_sort_nr(b, x3)
+    val (e, f) = int2_sort_nr(a, c)
+    val largest = d
+    val smallest = e
+    val middle = f
+in
 
-(* ****** ****** *)
+  (smallest, middle, largest)
+
+end
 
 val
 int4_sort_nr =
-fn(xs: int4): int4 => raise NotImplemented320
+fn(xs: int4): int4 => 
+let
+  val (x1,x2,x3,x4) = xs
+  val (a,b,c) = int3_sort_nr(x1,x2,x3)
+  val (d,e,f) = int3_sort_nr(b,c,x4)
+  val largest = f
+  val second = e
+  val (g,h) = int2_sort_nr(a,d)
+  val smallest = g
+  val third = h
 
-(* ****** ****** *)
+in
+  (smallest, third, second, largest)
+end
 
 val
 int5_sort_nr =
-fn(xs: int5): int5 => raise NotImplemented320
+fn(xs: int5): int5 => 
+let
+ val (x1,x2,x3,x4,x5) = xs
+  val (a,b,c,d) = int4_sort_nr(x1,x2,x3,x4)
+  val (e,f,g,h) = int4_sort_nr (b,c,d,x5)
+  val largest = h
+  val second = g
+  val third = f
+  val (i,j) = int2_sort_nr(a,e)
+  val smallest = i
+  val fourth = j
 
-(* ****** ****** *)
+in
+  (smallest,fourth,third,second,largest)
+end
+
+(* I put my test output in a file called localTestForInt5 *)
 
 (* end of [CS320-2023-Sum1-quiz01-int5_sort_nonrec.sml] *)

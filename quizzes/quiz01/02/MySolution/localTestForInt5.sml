@@ -75,5 +75,29 @@ val myans2 = int5_sort_nr(test2)
 val myans3 = int5_sort_nr(test3)
 val myans4 = int5_sort_nr(test4)
 
+(*
+below are the test output 
+
+Poly/ML 5.9 Release
+> use "localTestForInt5";
+type int2 = int * int
+val int2_sort_nr = fn: int2 -> int * int
+type int3 = int * int * int
+val int3_sort_nr = fn: int3 -> int * int * int
+type int4 = int * int * int * int
+val int4_sort_nr = fn: int4 -> int * int * int * int
+type int5 = int * int * int * int * int
+val int5_sort_nr = fn: int5 -> int * int * int * int * int
+val myans1 = (1, 1, 2, 3, 9): int * int * int * int * int
+val myans2 = (0, 2, 4, 6, 8): int * int * int * int * int
+val myans3 = (1, 1, 1, 1, 1): int * int * int * int * int
+val myans4 = (2, 2, 9, 9, 12): int * int * int * int * int
+val test1 = (2, 1, 1, 3, 9): int5
+val test2 = (0, 8, 2, 4, 6): int5
+val test3 = (1, 1, 1, 1, 1): int5
+val test4 = (9, 9, 2, 2, 12): int5
+val it = (): unit
+)
+
 
 
