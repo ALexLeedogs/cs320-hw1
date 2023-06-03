@@ -27,24 +27,47 @@ In particular, your implementation should guarantee:
 fun
 xlist_remove_reverse
 (xs: 'a xlist): 'a xlist = 
+let
+fun noreverse(xs:'a xlist): 'a xlist = 
 case xs of
 xlist_nil => xlist_nil
 |
-xlist_cons(x1, xs) => xlist_cons(x1,xlist_remove_reverse(xs))
+xlist_cons(x1, xs) => xlist_cons(x1,noreverse(xs))
 |
-xlist_snoc(xs, x1) => xlist_snoc(xlist_remove_reverse(xs),x1)
+xlist_snoc(xs, x1) => xlist_snoc(noreverse(xs),x1)
 |
-xlist_append(xs, ys) => xlist_append(xlist_remove_reverse(xs),xlist_remove_reverse(ys))
+xlist_append(xs, ys) => xlist_append(noreverse(xs),noreverse(ys))
 |
-xlist_reverse(xs) => 
+xlist_reverse(xs) => reverse(xs)
+
+and
+reverse (xs:'a xlist):'a xlist =
 case xs of 
  xlist_nil =>xlist_nil
-|xlist_cons(x1,xs) => xlist_snoc(xlist_remove_reverse(xs),x1)
-|xlist_snoc(xs,x1) => xlist_cons(x1,xlist_remove_reverse(xs))
-|xlist_append(xs,ys) => xlist_append(xlist_remove_reverse(ys),xlist_remove_reverse(xs))
-|xlist_reverse(xs) => xlist_remove_reverse(xs)
+|xlist_cons(x1,xs) => xlist_snoc(reverse(xs),x1)
+|xlist_snoc(xs,x1) => xlist_cons(x1,reverse(xs))
+|xlist_append(xs,ys) => xlist_append(reverse(ys),reverse(xs))
+|xlist_reverse(xs) => noreverse(xs)
+
+in
+noreverse(xs)
+end
+ 
+val xs1 = xlist_nil
+val xs1 =xlist_snoc(xs1,2)
+val xs1 = xlist_snoc(xs1,3)
+
+val xs1 = xlist_append(xs1,xs1)
+
+val xs1 = xlist_reverse(xs1)
 
 
+val xs1 = xlist_append(xs1,xs1)
+val xs1 = xlist_reverse(xs1)
+
+val ys1 = xlist_remove_reverse(xs1)
+val test1 = list_of_xlist(xs1)
+val test2 = list_of_xlist(ys1)
 
 
 
