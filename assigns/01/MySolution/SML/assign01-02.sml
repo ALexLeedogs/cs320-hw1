@@ -28,14 +28,19 @@ xlist_sub
 (xs: 'a xlist, i0: int): 'a = 
 case xs of
 xlist_nil => raise XlistSubscript
-| xlist_cons(x1,xs1) => if i0 <= 0 then x1 
+| xlist_cons(x1,xs1) => 
+if i0 <= 0 then x1 
 else if i0 > xlist_size(xs) - 1
 then raise XlistSubscript
 else xlist_sub(xs1, i0-1)
-| xlist_snoc(xs1,x1) => if i0 <= 0 then x1 
-else if i0 > xlist_size(xs) - 1
-then raise XlistSubscript
-else xlist_sub(xs1,i0-1)
+| xlist_snoc(xs1,x1) => 
+if i0 <= 0 andalso xlist_size(xs) <> 0 then xlist_sub(xs1,0)
+else if i0 <= 0 andalso xlist_size(xs) = 0 then x1
+else if i0 = xlist_size(xs) 
+then x1
+else if i0 < xlist_size(xs)
+then xlist_sub(xs1,i0)
+else raise XlistSubscript
 | xlist_append(xs1,xs2)=>
 let
 val xs1size = xlist_size(xs1) 
