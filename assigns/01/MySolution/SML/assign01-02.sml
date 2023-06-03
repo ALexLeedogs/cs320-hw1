@@ -34,11 +34,11 @@ else if i0 > xlist_size(xs) - 1
 then raise XlistSubscript
 else xlist_sub(xs1, i0-1)
 | xlist_snoc(xs1,x1) => 
-if i0 <= 0 andalso xlist_size(xs) <> 0 then xlist_sub(xs1,0)
-else if i0 <= 0 andalso xlist_size(xs) = 0 then x1
-else if i0 = xlist_size(xs) 
+if i0 <= 0 andalso xlist_size(xs1) <> 0 then xlist_sub(xs1,0)
+else if i0 <= 0 andalso xlist_size(xs1) = 0 then x1
+else if i0 = xlist_size(xs1) 
 then x1
-else if i0 < xlist_size(xs)
+else if i0 < xlist_size(xs1)
 then xlist_sub(xs1,i0)
 else raise XlistSubscript
 | xlist_append(xs1,xs2)=>
@@ -54,8 +54,19 @@ then xlist_sub(xs1,i0)
 else xlist_sub(xs2, i0 - xs1size)
 end
 | xlist_reverse(xs1)=>
-xlist_sub(xs1,i0)
+if i0 <= 0 then xlist_sub(xs1,xlist_size(xs1) - 1 )
+else if i0 > xlist_size(xs1) - 1
+then raise XlistSubscript
+else xlist_sub(xs1, xlist_size(xs1)-1-i0)
 
+val xs = xlist_nil
+val xs = xlist_snoc(xs, 1)
+val xs = xlist_snoc(xs, 2)
+val xs = xlist_snoc(xs, 3)
+val xs = xlist_snoc(xs, 4)
+val xs = xlist_snoc(xs, 5)
+val test222= list_of_xlist(xs)
+val test333= xlist_sub(xs, 4)
 
 
 (* ****** ****** *)
