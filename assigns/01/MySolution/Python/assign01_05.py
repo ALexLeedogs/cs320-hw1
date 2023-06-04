@@ -15,18 +15,20 @@ print("[import ./../assign01_lib.py] is done!")
 def mylist_append(list1,list2):
       if mylist_nilq(list1):
         return list2
-      else return mylist_cons(list1.get_cons1(), mylist_append(list1.get_cons2(), list2))
+      else:
+        return mylist_cons(list1.get_cons1(), mylist_append(list1.get_cons2(), list2))
 
 
 
 def mylist_rappend(list1,list2):
-    if len(list1) == 0:
-        return list2
-    else:
-        return mylist_rappend(list1[1:0],[list1[0]]+list2)
+      if mylist_nilq(list1):
+        return ys
+      else :
+        return mylist_rappend(list1.get_cons2(), mylist_cons(list1.get_cons1(), ys))
+
     
 
 def mylist_reverse(list1):
-    return mylist_rappend(list1,[])
+    return mylist_rappend(list1, mylist_nil())
 
 
