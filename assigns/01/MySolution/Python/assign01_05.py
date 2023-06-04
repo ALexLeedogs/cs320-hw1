@@ -22,9 +22,9 @@ def mylist_append(list1,list2):
 
 def mylist_rappend(list1,list2):
       if mylist_nilq(list1):
-        return ys
-      else :
-        return mylist_rappend(list1.get_cons2(), mylist_cons(list1.get_cons1(), ys))
+        return list2
+      else:
+        return mylist_rappend(list1.get_cons2(), mylist_cons(list1.get_cons1(), list2))
 
     
 
