@@ -34,6 +34,7 @@ def mylist_quicksort(xs):
                 return mylist_cons(x1, ys), zs
             else:
                 return ys, mylist_cons(x1, zs)
+    return qsort(xs)
     
 def mylist_append(list1,list2):
       if mylist_nilq(list1):
