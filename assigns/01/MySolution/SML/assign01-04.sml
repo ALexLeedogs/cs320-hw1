@@ -26,24 +26,28 @@ fun str2int_opt(cs: string): int option
 *)
 
 (* ****** ****** *)
-
-fun str2int_opt (cs: string): int option =
+fun str2int_opt(cs: string): int option =
   let
-    fun isDigit (c: char): bool =
+    fun isDigit(c: char): bool =
       Char.isDigit c
 
-    fun helper (i: int, count: int): int option =
-      if i = String.size cs then SOME count
-      else if isDigit (String.sub (cs, i)) then
-        let
-          val digit = Char.ord (String.sub (cs, i)) - Char.ord (#"0")
-        in
-          helper (i + 1, count * 10 + digit)
-        end
+    fun helper(i: int, count: int): int option =
+      if i = size cs then SOME count
       else
-        NONE
+        case String.sub (cs, i) of
+          #"0" => helper (i + 1, count * 10)
+        | #"1" => helper (i + 1, count * 10 + 1)
+        | #"2" => helper (i + 1, count * 10 + 2)
+        | #"3" => helper (i + 1, count * 10 + 3)
+        | #"4" => helper (i + 1, count * 10 + 4)
+        | #"5" => helper (i + 1, count * 10 + 5)
+        | #"6" => helper (i + 1, count * 10 + 6)
+        | #"7" => helper (i + 1, count * 10 + 7)
+        | #"8" => helper (i + 1, count * 10 + 8)
+        | #"9" => helper (i + 1, count * 10 + 9)
+        | _ => NONE
   in
-    if String.size(cs) = 0 then NONE
+    if size cs = 0 then NONE
     else helper (0, 0)
   end
 
