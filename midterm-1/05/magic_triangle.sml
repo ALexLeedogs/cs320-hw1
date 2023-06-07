@@ -54,10 +54,35 @@ the previous.
 
 *)
 
-(*
+
+
+
 fun
-magic_triangle (n : int) : int list list = ...
-*)
+magic_triangle (n : int) : int list list = 
+  let
+    fun next_row([]: (int list)): (int list) = [1]
+      | next_row(row: (int list)): (int list) =
+          let
+            fun add([x1, x2]: (int list)): (int list) = [x1 + x2]
+              | add(x1::x2::xs: (int list)): (int list) = (x1 + x2) :: add(x2::xs)
+              | add(_: (int list)): (int list) = []
+          in
+            1 :: add(row) @ [1]
+          end
+
+    fun build(0: int): (int list) list = [[1]]
+      | build(n: int): (int list) list =
+          let
+            val prev: (int list) list = build(n - 1)
+            val prev_row: (int list) = list_last(prev)
+            val next_row: (int list) = next_row(prev_row)
+          in
+            prev @ [next_row]
+          end
+  in
+    build(n)
+  end
+val triangle = magic_triangle 4
 
 (* ****** ****** *)
 
