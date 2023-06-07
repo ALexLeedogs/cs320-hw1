@@ -28,11 +28,30 @@ implementation.
 //
 *)
 (* ****** ****** *)
-(*
-fun
-list_pairing
-(xs: 'a list): ('a * 'a) list * 'a option = ...
-*)
+
+fun list_pairing (xs : 'a list) : (('a * 'a) list * 'a option) = 
+    let
+        fun helper ([], acc : ('a * 'a) list) : (('a * 'a) list * 'a option) = (acc, NONE)
+          | helper ([x], acc : ('a * 'a) list) : (('a * 'a) list * 'a option) = (acc, SOME x)
+          | helper (x::xs, acc : ('a * 'a) list) = 
+          case xs of
+          nil => (acc, SOME x)
+          | _ =>
+                let 
+                    val res = list_reverse(xs)
+                in
+                    helper (list_reverse(list_tail(res)), acc @ [(x,list_head(res))])
+                end
+    in
+        helper (xs, [])
+    end
+
+
+
+
+val xs = [1,2,3,4,5,6,7]
+val (r, option) = list_pairing(xs)
+
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-midterm1-list_pairing.sml] *)

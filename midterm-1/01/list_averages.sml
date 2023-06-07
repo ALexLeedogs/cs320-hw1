@@ -31,11 +31,21 @@ functions in your implementation of list_averages.
 *)
 (* ****** ****** *)
 
-(*
-fun
-list_averages(xs: real list): real list = ...
-*)
 
+fun list_averages (xs: real list): real list =
+  let
+    fun average (res: real list, xs: real list, sum: real, count: real): real list =
+      case xs of
+        [] => list_reverse res
+      | x::rest =>
+            average ((sum + x)/ (count + 1.0) :: res, rest, sum + x, count + 1.0)
+  in
+    average ([], xs, 0.0, 0.0)
+  end
+
+
+val xs = [1.0,2.0,3.0,4.0,5.0]
+val rlist = list_averages(xs)
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-midterm1-list_averages.sml] *)
