@@ -29,7 +29,7 @@ fun replicate (n, x) =
 fun check(new: int list, xs: int list, original: int list): int list =
   if new = [] then []
   else if list_head(new) = list_last(new)
-    then replicate(count_occurrences(list_head(new), original), list_head(new))
+    then list_append(replicate(count_occurrences(list_head(new), original) - count_occurrences(list_head(new),new),list_head(new)),new)
   else new
 
 
