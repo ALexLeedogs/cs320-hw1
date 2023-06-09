@@ -38,7 +38,7 @@ fun list_longest_ascend(xs: int list): int list =
         val drop = helper(low,xs1,res,list_last(res))
 
     in
-        if list_length(keep) >= list_length(drop)
+        if list_length(keep) > list_length(drop)
         then keep
         else drop
     end
