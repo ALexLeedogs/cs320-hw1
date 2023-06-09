@@ -16,66 +16,81 @@ fun list_longest_ascend(xs: int list): int list
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-assign02-04.sml] *)
+fun insert(res, x1) =
+    case list_reverse res of
+        [] => [x1]
+      | y::ys =>
+        if x1 >= y then res @ [x1]
+        else insert(list_reverse(ys), x1)
 
-fun count_occurrences (x, []) = 0
-  | count_occurrences (x, y::ys) =
-    if x = y then 1 + count_occurrences (x, ys)
-    else count_occurrences (x, ys)
-
-fun replicate (n, x) =
-    if n <= 0 then []
-    else x :: replicate (n-1, x)
-
-fun check(new: int list, xs: int list, original: int list): int list =
-  if new = [] then []
-  else if list_head(new) = list_last(new)
-    then list_append(replicate(count_occurrences(list_head(new), original) - count_occurrences(list_head(new),new),list_head(new)),new)
-  else new
-
-
-fun current(xs: int list, original: int list): int list =
-  let
-    fun helper([], longest, original) = longest
-      | helper(x::xs', [], original) = helper(xs', [x], original)
-      | helper(x::xs', longest as last::_, original) =
-          if x >= last
-          then helper(xs', x::longest, original)
-          else helper(xs', longest, original)
-  in
-    
-    check(list_reverse(helper(xs, [], original)), xs, original)
-
-  end
 
 fun list_longest_ascend(xs: int list): int list =
   let
-    fun compare([], longest,original) = current(longest,original)
-      | compare(x::xs1, [], original) = compare(xs1, x::xs1, original)
-      | compare(x::xs1, longest, original) =
-          if list_length(current(longest, original)) >= list_length(current(x::xs1, original))
-          then compare(xs1, longest, original)
-          else compare(xs1, x::xs1, original)
+    fun helper(low,xs,res,prev) = 
+    case xs of 
+    [] => res
+    | x1::xs1 =>
+    if x1 >= prev
+    then
+    let 
+
+        val keep = helper(low,xs1,list_append(res,[x1]),x1)
+        val drop = helper(low,xs1,res,list_last(res))
+
+    in
+        if list_length(keep) >= list_length(drop)
+        then keep
+        else drop
+    end
+
+    else 
+        if x1 < low
+        then
+        let
+            val keep = helper(x1,xs1,[x1],x1)
+            val drop = helper(low,xs1,res,list_last(res))
+        in
+            if list_length(keep) > list_length(drop)
+            then keep
+            else drop
+        end
+
+        else 
+        let
+            val inserted = insert(res,x1)
+            val keep = helper(low,xs1, inserted, list_last(inserted))
+            val drop = helper(low,xs1,res,list_last(res))
+
+        in
+            if list_length(keep) > list_length(drop)
+            then keep
+            else drop
+        end
   in
-    compare(xs,[], xs)
+    case xs of
+      [] => []
+    | x1::xs1 => helper(x1,xs1,[x1],x1)
   end
 
 
 
 
 
-val x = [1, 2, 3, 4, 5]
-val b = [5, 4, 3, 2, 1]
+
+val x = [2, 1, 2, 1, 3, 3, 2, 2]
+val b = [2, 1, 2, 1, 3, 3, 2, 2, 4, 3, 4, 5, 3, 5]
 val c = [2, 1, 3, 3, 4, 4, 5]
 val d = [2, 1, 1, 3, 3, 2, 4, 4, 5]
 val e = [4, 1, 2, 1, 3, 8, 9, 5, 6, 7, 1, 1, 1, 1, 1, 1, 1]
+val h = [1,2,3,4,1,2,3,4]
 
 
 (*
 expected output after calling the function is 
-x=[1, 2, 3, 4, 5]
+x=[2, 2, 3, 3, 4, 4, 5, 5]
 b=[5]
 c = [2, 3, 3, 4, 4, 5]
-d = [ 1, 1, 3, 3, 2, 4, 4, 5]
+d = [ 1, 1, 3, 3, 4, 4, 5]
 e = [1,1,1,1,1,1,1,1,1]
 
 uyidesh
@@ -90,5 +105,6 @@ val myans2 = list_longest_ascend b
 val myans3 = list_longest_ascend c
 val myans4 = list_longest_ascend d
 val myans7 = list_longest_ascend e
+val myasn8 = list_longest_ascend h
 
 
