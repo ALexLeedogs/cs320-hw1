@@ -90,7 +90,7 @@ fun list_longest_ascend(xs: int list): int list =
 
 
 
-val x = [2, 1, 2, 1, 3, 3, 2, 2]
+val x = [9,2,1,3,9,2,1,3]
 val b = [2, 1, 2, 1, 3, 3, 2, 2, 4, 3, 4, 5, 3, 5]
 val c = [2, 1, 3, 3, 4, 4, 5]
 val d = [2, 1, 1, 3, 3, 2, 4, 4, 5]
