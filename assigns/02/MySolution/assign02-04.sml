@@ -16,6 +16,16 @@ fun list_longest_ascend(xs: int list): int list
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-assign02-04.sml] *)
+fun occursEarlier (a, b, xs) =
+  let
+    fun helper a b [] = false
+      | helper a b (x::xs) = if x = a then true
+                             else if x = b then false
+                             else helper a b xs
+  in
+    helper a b xs
+  end
+
 fun insert(res, x1) =
     case list_reverse res of
         [] => [x1]
@@ -26,7 +36,7 @@ fun insert(res, x1) =
 
 fun list_longest_ascend(xs: int list): int list =
   let
-    fun helper(low,xs,res,prev) = 
+    fun helper(low,xs,res,prev,original) = 
     case xs of 
     [] => res
     | x1::xs1 =>
@@ -34,8 +44,8 @@ fun list_longest_ascend(xs: int list): int list =
     then
     let 
 
-        val keep = helper(low,xs1,list_append(res,[x1]),x1)
-        val drop = helper(low,xs1,res,list_last(res))
+        val keep = helper(low,xs1,list_append(res,[x1]),x1,original)
+        val drop = helper(low,xs1,res,list_last(res),original)
 
     in
         if list_length(keep) >= list_length(drop)
@@ -47,19 +57,22 @@ fun list_longest_ascend(xs: int list): int list =
         if x1 < low
         then
         let
-            val keep = helper(x1,xs1,[x1],x1)
-            val drop = helper(low,xs1,res,list_last(res))
+            val keep = helper(x1,xs1,[x1],x1,original)
+            val drop = helper(low,xs1,res,list_last(res),original)
         in
             if list_length(keep) > list_length(drop)
             then keep
+            else if list_length(keep) < list_length(drop)
+            then drop
+            else if occursEarlier(list_head(keep),list_head(drop),original) then keep
             else drop
         end
 
         else 
         let
             val inserted = insert(res,x1)
-            val keep = helper(low,xs1, inserted, list_last(inserted))
-            val drop = helper(low,xs1,res,list_last(res))
+            val keep = helper(low,xs1, inserted, list_last(inserted),original)
+            val drop = helper(low,xs1,res,list_last(res),original)
 
         in
             if list_length(keep) > list_length(drop)
@@ -69,7 +82,7 @@ fun list_longest_ascend(xs: int list): int list =
   in
     case xs of
       [] => []
-    | x1::xs1 => helper(x1,xs1,[x1],x1)
+    | x1::xs1 => helper(x1,xs1,[x1],x1,xs)
   end
 
 
@@ -106,5 +119,4 @@ val myans3 = list_longest_ascend c
 val myans4 = list_longest_ascend d
 val myans7 = list_longest_ascend e
 val myasn8 = list_longest_ascend h
-
 
