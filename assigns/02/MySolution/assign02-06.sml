@@ -39,3 +39,16 @@ fn(xs: 'a list) => ...
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-assign02-06.sml] *)
+
+fun list_subsets (xs: 'a list): 'a list list =
+    let 
+    fun helper (subsets: 'a list list, x: 'a) : 'a list list =
+    let 
+    val new = list_map (subsets, fn(subset: 'a list) => x :: subset)
+    in
+      list_append (subsets, new)
+    end
+    in
+      list_foldl (xs, [[]], helper)
+    end
+
