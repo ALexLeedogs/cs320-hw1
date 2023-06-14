@@ -49,11 +49,13 @@ then it is DISQUALIFIED.
 *)
 (* ****** ****** *)
 
-(*
-val
-quiz02_01 =
-fn(word: string) => ...
-*)
+val quiz02_01 = 
+  fn(word: string) => 
+    fn(n: char) =>
+      string_foldleft(word, 0, fn(count, c) => if c = n then count + 1 else count)
+
+
+
 
 (* ****** ****** *)
 

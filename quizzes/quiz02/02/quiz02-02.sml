@@ -39,4 +39,19 @@ fn(xs: int list, ys: int list) => ...
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-quizzes-quiz02-02.sml] *)
+fun quiz02_02 (xs: int list, ys: int list): bool =
+  not (
+    list_forall(
+      list_cross2(xs, ys),
+      fn (x, y) => (abs(x - y) >= 10)
+    )
+  )
+
+val xs = [1,2,3,4,5]
+val ys = [11,20,30,40,50]
+val result = quiz02_02(xs,ys)
+
+
+
+
 

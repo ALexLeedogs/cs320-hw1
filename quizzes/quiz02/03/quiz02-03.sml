@@ -33,4 +33,17 @@ fn(xs: int list) => ...
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-quizzes-quiz02-03.sml] *)
+fun check(x: int, ys: int list): bool =
+      list_forall(ys, fn (y) => x > y)
+
+fun quiz02_03(xs: int list): int list =
+let
+val result = list_foldr
+    (xs, [], fn (x1, res) =>
+    if check(x1, res) then x1 :: res else res)
+in
+    result
+end
+
+
 
