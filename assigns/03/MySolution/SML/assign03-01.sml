@@ -27,23 +27,38 @@ library for this class.
 
 (* ****** ****** *)
 
-(*
+
+
+
 fun
 ref_get_at
-(ref: 'a ref, i: int): 'a
+(r: 'a ref, i: int): 'a = 
+if i = 0 then !r 
+else raise Subscript
+
 fun
 ref_forall
-(ref: 'a ref, test: 'a -> bool): bool
+(r: 'a ref, test: 'a -> bool): bool =
+test(!r)
+
 fun
 ref_map_list
-(ref: 'a ref, fopr: ('a) -> 'b): 'b list
+(r: 'a ref, fopr: ('a) -> 'b): 'b list =
+[fopr(!r)]
+
 fun
 ref_foldleft
-(ref: 'a ref, res: 'r, fopr: ('r * 'a) -> 'r): 'r
+(r: 'a ref, res: 'r, fopr: ('r * 'a) -> 'r): 'r =
+fopr (res, !r)
+
 fun
 ref_ifoldleft
-(ref: 'a ref, res: 'r, fopr: ('r * int * 'a) -> 'r): 'r
-*)
+(r: 'a ref, res: 'r, fopr: ('r * int * 'a) -> 'r): 'r = 
+fopr (res, 0, !r) 
+
+
+
+
 
 (* ****** ****** *)
 
