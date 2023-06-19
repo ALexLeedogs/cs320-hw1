@@ -21,3 +21,39 @@ matrix.
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-assign03-08.sml] *)
+
+fun check (strcons)=
+not (list_forall(strcons, fn (strcon) => case strcon of strcon_nil => false| _ => true) )
+
+
+fun stream_to_strcon (stream) = 
+list_map(stream, fn x => x())
+
+
+fun stream_ziplst (xs: 'a stream list): 'a list stream = fn () =>
+    let
+    val current_strcons = stream_to_strcon(xs)
+    in
+    if check (current_strcons) then strcon_nil
+    else
+        let
+        val col = list_map(current_strcons, fn strcon =>
+            case strcon of
+              strcon_nil => raise Empty
+            | strcon_cons (col, _) => col)
+        val rest = list_map(current_strcons, fn strcon =>
+            case strcon of
+              strcon_nil => raise Empty
+            | strcon_cons (_, rest) => rest)
+        in
+        strcon_cons (col, stream_ziplst (rest))
+        end
+    end
+
+
+
+
+
+
+
+

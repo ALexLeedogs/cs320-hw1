@@ -75,16 +75,14 @@ word_neighbors = fn(word: string) => ...
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-assign03-02.sml] *)
-(* Definition of word_neighbors *)
-(* Definition of word_neighbors *)
-(* Definition of word_neighbors *)
+
 fun word_neighbors(word: string): string list =
 let
     val len = string_length(word)
 
     fun n_each(i: int): string list =
-        string_imap_list(AB,fn (j, ch_new) =>
-        string_tabulate(len, fn k => if k = i then ch_new else strsub(word, k)))
+        string_imap_list(AB,fn (j, new) =>
+        string_tabulate(len, fn k => if k = i then new else strsub(word, k)))
     
 
     val raw = list_concat (list_tabulate(len, n_each))
