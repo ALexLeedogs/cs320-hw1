@@ -20,17 +20,17 @@ val theNatPairs: (int*int) stream = fn () => ...
 (* ****** ****** *)
 
 (* end of [CS320-2023-Sum1-assign03-05.sml] *)
-(* Function to generate pairs (i, j) in diagonal order *)
-val theNatPairs: (int * int) stream =
-  let
-    fun outer(i: int): (int * int) strcon =
-      strcon_cons((i, 0), fn () => inner(i, i))
-    and inner(i: int, j: int): (int * int) strcon =
-      if j > 0
-      then strcon_cons((i - j, j), fn () => inner(i, j - 1))
-      else outer(i + 1)
-  in
-    fn () => outer(0)
-  end;
+val theNatPairs: (int * int) stream = 
+    let 
+        fun helper(i, j) =
+            if i > j 
+            then fn () => helper(0, j + 1) ()
+            else stream_cons((i, j - i), fn () => helper(i + 1, j) ())
+    in
+        fn () => helper(0, 0) ()
+    end
+
+
+
 
 
