@@ -19,10 +19,17 @@ And so on, and so forth
 
 (* ****** ****** *)
 
-(*
-val the_ln2_stream: real stream = fn() => ...
-*)
+val the_ln2_stream: real stream = fn() =>
+    let 
+        fun helper (acc, sign, i) () =
+            let
+                val new = acc + sign / real i
+            in
+                strcon_cons (new, helper(new, ~sign, i+1))
+            end
+    in 
+        helper(0.0, 1.0, 1) ()
+    end
 
-(* ****** ****** *)
 
-(* end of [CS320-2023-Sum1-assign03-04.sml] *)
+
