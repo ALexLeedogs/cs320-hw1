@@ -22,35 +22,35 @@ matrix.
 
 (* end of [CS320-2023-Sum1-assign03-08.sml] *)
 
-fun check (strcons)=
-not (list_forall(strcons, fn (strcon) => case strcon of strcon_nil => false| _ => true) )
+fun find_empty_stream [] = false
+  | find_empty_stream (x::xs) = 
+    case x() of
+        strcon_nil => true
+      | _ => find_empty_stream xs
+
+fun extract (strcons: 'a strcon list): 'a list * 'a stream list =
+  let
+    fun helper (strcons, heads, tails) =
+      case strcons of
+        [] => (heads, tails)
+      | strcon::rest =>
+          (case strcon of
+            strcon_nil => raise Empty
+          | strcon_cons (head, tail) => helper(rest, head::heads, tail::tails))
+  in
+    helper(strcons, [], [])
+  end
 
 
-fun stream_to_strcon (stream) = 
-list_map(stream, fn x => x())
-
-
-fun stream_ziplst (xs: 'a stream list): 'a list stream = fn () =>
-    let
-    val current_strcons = stream_to_strcon(xs)
-    in
-    if check (current_strcons) then strcon_nil
+fun stream_ziplst (streams: 'a stream list): 'a list stream = fn () =>
+    if find_empty_stream streams then strcon_nil
     else
-        let
-        val col = list_map(current_strcons, fn strcon =>
-            case strcon of
-              strcon_nil => raise Empty
-            | strcon_cons (col, _) => col)
-        val rest = list_map(current_strcons, fn strcon =>
-            case strcon of
-              strcon_nil => raise Empty
-            | strcon_cons (_, rest) => rest)
-        in
-        strcon_cons (col, stream_ziplst (rest))
-        end
-    end
-
-
+      let
+          val strcons = list_map(streams, fn stream => stream())
+          val (heads, tails) = extract(strcons)
+      in
+          strcon_cons (list_reverse(heads), stream_ziplst (list_reverse(tails)))
+      end
 
 
 
