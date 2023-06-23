@@ -1,7 +1,7 @@
 (* ****** ****** *)
 
 use
-"./../../mysmlib/mysmlib-cls.sml";
+"./../../../mysmlib/mysmlib-cls.sml";
 
 (* ****** ****** *)
 
@@ -45,3 +45,59 @@ perm_counting_out
 (* ****** ****** *)
 
 (* end of [CS320-2023-Spring-midterm2-perm_counting_out.sml] *)
+
+fun perm_counting_out(xs: int list, k0: int): int list =
+    let
+        fun count(rest, ind, acc) =
+            case rest of
+                [] => list_reverse(acc)
+              | x::rest1 =>
+                    let
+                        val n = list_length(rest)
+                        val i = (ind + k0) mod n
+                    in
+                        count (
+                            (list_map ((foreach_to_filter_list ((foreach_to_iforeach (list_foreach)))
+                                       (rest, fn (index, x) => index < i)),
+                                       fn (index, element) => element))
+                            @
+                            (list_map ((foreach_to_filter_list ((foreach_to_iforeach (list_foreach)))
+                                       (rest, fn (index, x) => index > i )),
+                                       fn (index, element) => element)),
+                            i, (foreach_to_get_at (list_foreach))(rest, i)::acc
+                        )
+                    end
+    in
+        count(xs, 0, [])
+    end
+
+(*
+
+original code
+
+fun perm_counting_out(xs: int list, k0: int): int list =
+    let
+        fun count(rest, ind, acc) =
+            case rest of
+                [] => list_reverse(acc)
+              | x::rest1 =>
+                    let
+                        val n = list_length(rest)
+                        val i = (ind + k0) mod n
+                    in
+                        count (
+                            (list_map ((foreach_to_filter_list ((foreach_to_iforeach (list_foreach)))
+                                       (rest, fn (index, x) => index < i)),
+                                       fn (index, element) => element))
+                            @
+                            (list_map ((foreach_to_filter_list ((foreach_to_iforeach (list_foreach)))
+                                       (rest, fn (index, x) => index > i )),
+                                       fn (index, element) => element)),
+                            i, (foreach_to_get_at (list_foreach))(rest, i)::acc
+                        )
+                    end
+    in
+        count(xs, 0, [])
+    end
+
+*)
