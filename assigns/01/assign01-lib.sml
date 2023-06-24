@@ -92,7 +92,7 @@ in
 end
 )
 (* ****** ****** *)
-and
+an
 qpart
 (xs: int list, p0: int): int list * int list =
 (

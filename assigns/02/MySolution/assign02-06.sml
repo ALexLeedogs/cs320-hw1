@@ -42,9 +42,9 @@ fn(xs: 'a list) => ...
 
 fun list_subsets (xs: 'a list): 'a list list =
     let 
-    fun helper (subsets: 'a list list, x: 'a) : 'a list list =
+      fun helper (subsets: 'a list list, x: 'a) : 'a list list =
     let 
-    val new = list_map (subsets, fn(subset: 'a list) => x :: subset)
+      val new = list_map (subsets, fn(subset: 'a list) => x :: subset)
     in
       list_append (subsets, new)
     end

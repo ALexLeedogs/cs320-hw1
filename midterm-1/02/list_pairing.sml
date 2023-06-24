@@ -29,27 +29,35 @@ implementation.
 *)
 (* ****** ****** *)
 
-fun list_pairing (xs : 'a list) : (('a * 'a) list * 'a option) = 
-    let
-        fun helper ([], acc : ('a * 'a) list) : (('a * 'a) list * 'a option) = (acc, NONE)
-          | helper ([x], acc : ('a * 'a) list) : (('a * 'a) list * 'a option) = (acc, SOME x)
-          | helper (x::xs, acc : ('a * 'a) list) = 
-          case xs of
-          nil => (acc, SOME x)
-          | _ =>
-                let 
-                    val res = list_reverse(xs)
-                in
-                    helper (list_reverse(list_tail(res)), acc @ [(x,list_head(res))])
-                end
-    in
-        helper (xs, [])
-    end
+
+fun list_pairing xs =
+  let
+    fun helper startPtr endPtr acc =
+      if startPtr > endPtr then
+        (List.rev acc, NONE)
+      else if startPtr = endPtr then
+        (List.rev acc, SOME (List.nth (xs, startPtr)))
+      else
+        let
+          val pair = (List.nth (xs, startPtr), List.nth (xs, endPtr))
+        in
+          helper (startPtr + 1) (endPtr - 1) (pair :: acc)
+        end
+  in
+    helper 0 (List.length xs - 1) []
+  end
 
 
 
 
-val xs = [1,2,3,4,5,6,7]
+
+
+
+
+
+
+
+val xs = [1,2,3,4]
 val (r, option) = list_pairing(xs)
 
 (* ****** ****** *)

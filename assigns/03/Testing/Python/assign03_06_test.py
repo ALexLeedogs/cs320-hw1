@@ -51,9 +51,12 @@ fxs = cxs.cons2
 print(cxs.cons1)
 assert(board_safety_all(cxs.cons1))
 ######################################################
-assert(stream_forall\
-       (theNQueenSols_10, \
-        lambda bd: nqueen(bd)==10 and board_safety_all(bd)))
+def test_solution(bd):
+    if not (nqueen(bd) == 10 and board_safety_all(bd)):
+        print(f"Failed solution: {bd}")
+    return nqueen(bd) == 10 and board_safety_all(bd)
+
+assert(stream_forall(theNQueenSols_10, test_solution))
 # stream_iforeach\
 #    (theNQueenSols_10, lambda i, bd: print("solution(",i+1,") =", bd))
 ######################################################

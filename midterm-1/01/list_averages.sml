@@ -36,7 +36,7 @@ fun list_averages (xs: real list): real list =
   let
     fun average (res: real list, xs: real list, sum: real, count: real): real list =
       case xs of
-        [] => list_reverse res
+        [] => list_reverse (res)
       | x::rest =>
             average ((sum + x)/ (count + 1.0) :: res, rest, sum + x, count + 1.0)
   in

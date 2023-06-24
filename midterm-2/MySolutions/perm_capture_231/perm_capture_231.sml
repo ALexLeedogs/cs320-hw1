@@ -32,18 +32,22 @@ perm_capture_231
 
 (* end of [CS320-2023-Sum1-midterm2-perm_capture_231.sml] *)
 
-fun helper(a, blist, clist) =
-    case blist of 
-    [] => false
-    | b1::blist1 =>
-        case clist of
-          [] => false
-        | c1::clist1 => 
-            list_x2exists([b1], clist1, fn (b, c) => c < a andalso a < b)
-            orelse (helper(a, blist1, clist1))
+fun perm_capture_231 (xs: int list): bool =
+    let
+        fun helper1 (xs) =
+            case xs of
+                [] => false
+              | x1::rest => helper2 (SOME x1, rest) orelse helper1 (rest)
 
-fun perm_capture_231(xs: int list): bool =
-      case xs of
-        [] => false
-      | x1::xs =>
-          helper(x1, xs, xs) orelse perm_capture_231(xs)
+        and helper2 (NONE, xs) = false
+          | helper2 (SOME x1, []) = false
+          | helper2 (SOME x1, x2::rest) =
+            (x1 < x2) andalso helper3 (SOME x1, SOME x2, rest) orelse helper2 (SOME x1, rest)
+
+        and helper3 (NONE, NONE, xs) = false
+          | helper3 (SOME x1, SOME x2, []) = false
+          | helper3 (SOME x1, SOME x2, x3::rest) = (x1 > x3) orelse helper3 (SOME x1, SOME x2, rest)
+    in
+        helper1 (xs)
+    end;
+

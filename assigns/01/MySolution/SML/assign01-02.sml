@@ -59,14 +59,7 @@ else if i0 > xlist_size(xs1) - 1
 then raise XlistSubscript
 else xlist_sub(xs1, xlist_size(xs1)-1-i0)
 
-val xs = xlist_nil
-val xs = xlist_snoc(xs, 1)
-val xs = xlist_snoc(xs, 2)
-val xs = xlist_snoc(xs, 3)
-val xs = xlist_snoc(xs, 4)
-val xs = xlist_snoc(xs, 5)
-val test222= list_of_xlist(xs)
-val test333= xlist_sub(xs, 4)
+
 
 
 (* ****** ****** *)
